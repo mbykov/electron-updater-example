@@ -4,6 +4,9 @@
 const {app, BrowserWindow, Menu, protocol, ipcMain} = require('electron');
 const log = require('electron-log');
 const {autoUpdater} = require("electron-updater");
+const PouchDB = require('pouchdb')
+
+let db = new PouchDB('dashboard')
 
 //-------------------------------------------------------------------
 // Logging
@@ -59,13 +62,22 @@ function sendStatusToWindow(text) {
   win.webContents.send('message', text);
 }
 function createDefaultWindow() {
-  win = new BrowserWindow();
-  win.webContents.openDevTools();
-  win.on('closed', () => {
-    win = null;
-  });
-  win.loadURL(`file://${__dirname}/version.html#v${app.getVersion()}`);
-  return win;
+    win = new BrowserWindow();
+    win.webContents.openDevTools();
+    win.on('closed', () => {
+        win = null;
+    });
+    win.loadURL(`file://${__dirname}/version.html#v${app.getVersion()}`);
+
+    db.info().then(function (info) {
+        console.log(info);
+        db.get('mittens').then(function(doc) {
+            console.log(doc);
+            win.webContents.send('couch', doc);
+        });
+    })
+
+    return win;
 }
 autoUpdater.on('checking-for-update', () => {
   sendStatusToWindow('Checking for update...');
@@ -89,11 +101,13 @@ autoUpdater.on('update-downloaded', (ev, info) => {
   sendStatusToWindow('Update downloaded; will install in 5 seconds');
 });
 app.on('ready', function() {
-  // Create the Menu
-  const menu = Menu.buildFromTemplate(template);
-  Menu.setApplicationMenu(menu);
+    // Create the Menu
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
 
-  createDefaultWindow();
+    createDefaultWindow();
+
+
 });
 app.on('window-all-closed', () => {
   app.quit();
@@ -125,7 +139,7 @@ autoUpdater.on('update-downloaded', (ev, info) => {
   // In your application, you don't need to wait 5 seconds.
   // You could call autoUpdater.quitAndInstall(); immediately
   setTimeout(function() {
-    autoUpdater.quitAndInstall();  
+    autoUpdater.quitAndInstall();
   }, 5000)
 })
 
