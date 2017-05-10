@@ -18,7 +18,8 @@
     "dependencies": {
         "electron-log": "^2.2.4",
         "electron-updater": "^1.15.0",
-         "pouchdb": "^6.2.0"
+        "pouchdb": "^6.2.0",
+        "isarray": "^2.0.1"
   },
     "build": {
         "appId": "com.github.mbykov.electronupdaterexample",
