@@ -5,6 +5,7 @@
     "description": "electron-updater example project",
     "author": "Michael Bykov",
     "scripts": {
+        "postinstall": "electron-rebuild",
         "start": "electron .",
         "dev": "electron . --debug",
         "lint": "standard | snazzy"
@@ -12,13 +13,12 @@
     "devDependencies": {
         "electron": "^1.6.6",
         "electron-builder": "^17.3.1",
-           "electron-rebuild": "^1.5.10"
+        "electron-rebuild": "^1.5.10"
     },
     "dependencies": {
         "electron-log": "^2.2.4",
         "electron-updater": "^1.15.0",
-        "pouchdb": "^6.2.0",
-        "isarray": "^2.0.1"
+        "pouchdb": "^6.2.0"
   },
     "build": {
         "appId": "com.github.mbykov.electronupdaterexample",
