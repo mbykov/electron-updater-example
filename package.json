@@ -1,6 +1,6 @@
 {
     "name": "electron-updater-example",
-    "version": "0.4.4",
+    "version": "0.4.5",
     "main": "main.js",
     "description": "electron-updater example project",
     "author": "Michael Bykov",
@@ -30,7 +30,8 @@
             ]
         },
         "nsis": {
-            "perMachine": true
+            "perMachine": true,
+            "installerIcon": "icons1/win/book.ico"
         }
     }
 }

@@ -69,6 +69,7 @@ function createDefaultWindow() {
     });
     win.loadURL(`file://${__dirname}/version.html#v${app.getVersion()}`);
 
+
     db.info().then(function (info) {
         console.log(info);
         db.get('mittens').then(function(doc) {
